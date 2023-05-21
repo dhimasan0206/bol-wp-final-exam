@@ -9,6 +9,7 @@ use App\Models\TransactionDetail;
 use App\Models\Customer;
 use App\Models\ExchangeRate;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -156,5 +157,41 @@ class TransactionController extends Controller
     {
         $transaction->delete();
         return to_route('transactions.index');
+    }
+
+    public function report(Request $request)
+    {
+        $year = $request->query('year', date("Y"));
+        $month = $request->query('month', date("n"));
+
+        $years = [];
+        $current_year = idate("Y");
+        for ($i=$current_year-100; $i <= $current_year; $i++) { 
+            $years[$i] = $i;
+        }
+
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $time = mktime(0, 0, 0, $i);
+            $months[date('n', $time)] =  date('F', $time);
+        }
+
+        $currencies = [];
+        foreach (DB::select("SELECT currency FROM exchange_rates GROUP BY currency") as $currency) {
+            $currencies[$currency->currency] = $currency->currency;
+        }
+
+        $currency = $request->query('currency', reset($currencies));
+
+        $sql = "SELECT DATE_FORMAT(`transactions`.`date`, '%d-%m-%Y') AS transaction_date, currency, COUNT(`transactions`.id) AS transaction_count, SUM(rate*quantity) as total FROM `transaction_details` JOIN `transactions` ON `transactions`.`id` = `transaction_details`.`transaction_id` AND YEAR(`transactions`.`date`) = ? AND MONTH(`transactions`.`date`) = ? WHERE currency = ? GROUP BY currency, transaction_date ORDER BY transaction_date, currency;";
+
+        $labels = [];
+        $data = [];
+        foreach (DB::select($sql, [$year, $month, $currency]) as $report) {
+            array_push($labels, $report->transaction_date);
+            array_push($data, $report->total);
+        }
+
+        return view('transaction.report', compact('years', 'year', 'months', 'month', 'currencies', 'currency','labels', 'data'));
     }
 }

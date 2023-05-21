@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Membership;
 use App\Models\Customer;
 use App\Models\ExchangeRate;
+use App\Models\Transaction;
+use App\Models\TransactionDetail;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -96,5 +98,21 @@ class DatabaseSeeder extends Seeder
             'buy' => 9000,
             'date' => date('Y-m-d H:i:s'),
         ]);
+
+        $currencies = ['USD', 'SGD', 'AUD', 'JPY'];
+        for ($i=0; $i < 100; $i++) {
+            Transaction::create([
+                'customer' => 'test',
+                'date' => now()->sub(rand(0,7), 'days'),
+                'discount' => rand(1, 1000),
+            ]);
+
+            TransactionDetail::create([
+                'transaction_id' => $i+1,
+                'currency' => $currencies[rand(0, count($currencies)-1)],
+                'rate' => rand(10000,20000),
+                'quantity' => rand(1,10),
+            ]);
+        }
     }
 }

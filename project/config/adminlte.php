@@ -352,6 +352,11 @@ return [
                     'url' => 'transactions',
                     'can'  => 'TRANSACTION:MANAGE',
                 ],
+                [
+                    'text' => 'Report',
+                    'url' => 'transactions/report',
+                    'can'  => 'TRANSACTION:MANAGE',
+                ],
             ],
         ],
     ],

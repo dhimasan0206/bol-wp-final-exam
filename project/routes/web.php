@@ -27,4 +27,5 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::resource('memberships', MembershipController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('exchangerates', ExchangeRateController::class);
+Route::get('transactions/report', [TransactionController::class, 'report'])->name('transactions.report');
 Route::resource('transactions', TransactionController::class);
