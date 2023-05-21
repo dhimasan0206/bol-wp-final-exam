@@ -30,6 +30,8 @@
 26. `docker-compose exec myapp php artisan make:model Transaction -a`
 27. `docker-compose exec myapp php artisan make:model TransactionDetail -a`
 28. tambah CRUD transaction
+29. tambah report bulanan berdasarkan mata uang
+30. tambah report total profit
 
 ## local deployment
 

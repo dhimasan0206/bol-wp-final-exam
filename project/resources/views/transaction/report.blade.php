@@ -1,12 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Report')
+@section('title', 'Reports')
 
 @section('content_header')
-    <h1>Report</h1>
+    <h1>Reports</h1>
 @stop
 
 @section('content')
+    <h3>Total Profit Report Rp {{ number_format($profit) }}</h3>
+    <hr>
+    <h3>By Currency By Month Report</h3>
     <form action="{{route('transactions.report')}}" method="GET">
         <div>
             {!! Form::label('year', 'Year') !!}

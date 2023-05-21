@@ -192,6 +192,10 @@ class TransactionController extends Controller
             array_push($data, $report->total);
         }
 
-        return view('transaction.report', compact('years', 'year', 'months', 'month', 'currencies', 'currency','labels', 'data'));
+        $sql = "SELECT SUM(d.rate*d.quantity) - SUM(discount) AS profit FROM transactions t JOIN transaction_details d ON d.transaction_id = t.id;";
+
+        $profit = DB::scalar($sql);
+
+        return view('transaction.report', compact('years', 'year', 'months', 'month', 'currencies', 'currency','labels', 'data', 'profit'));
     }
 }
