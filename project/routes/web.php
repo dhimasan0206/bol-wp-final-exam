@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ExchangeRateController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,4 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::resource('memberships', MembershipController::class);
 Route::resource('customers', CustomerController::class);
 Route::resource('exchangerates', ExchangeRateController::class);
+Route::resource('transactions', TransactionController::class);

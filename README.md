@@ -45,4 +45,3 @@
       1. email: admin@laravel.com
       2. password: admin1234
       3. Bisa manajemen valas, customer, dan transaksi
-5. test
